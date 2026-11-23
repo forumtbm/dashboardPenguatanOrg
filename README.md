@@ -124,3 +124,4 @@ src/lib/tbm-csv.ts             parser & normalisasi CSV
 - `SUPABASE_SERVICE_ROLE_KEY` hanya dipakai di server (membuat/menghapus user) dan tidak pernah dikirim ke browser.
 - Akun yang tidak memiliki profil di tabel `profiles` tidak bisa membaca data apa pun, walaupun berhasil login.
 - Mesin pencari diblokir (`noindex`).
+"# dashboardPO" 

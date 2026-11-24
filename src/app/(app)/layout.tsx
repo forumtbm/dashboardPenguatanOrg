@@ -15,6 +15,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     { href: "/pd", label: "Pengurus Daerah (PD)" },
     { href: "/daerah", label: "Identifikasi Daerah" },
     { href: "/tbm", label: "Anggota TBM" },
+    { href: "/portofolio", label: "Portofolio TBM" },
     ...(canManageUsers(profile.role) ? [{ href: "/users", label: "Manajemen User" }] : []),
     { href: "/akun", label: "Akun Saya" },
   ];

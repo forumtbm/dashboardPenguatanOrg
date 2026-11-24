@@ -16,6 +16,7 @@ dengan login username/password, manajemen user, CRUD data, upload/unduh CSV, dan
 | **Pengurus Daerah** | CRUD identifikasi PD + data pengurus. Jumlah TBM dihitung otomatis |
 | **Identifikasi Daerah** | Semua kab/kota: provinsi, status PW, status PD, jumlah TBM terdaftar, filter + unduh CSV |
 | **Anggota TBM** | CRUD 99 kolom sesuai `template_tbm.csv`, pencarian, filter, **upload CSV** (tambah/perbarui), **unduh CSV** |
+| **Portofolio TBM** | *Pencarian* kata kunci (nama TBM, lokasi, isi portofolio) dengan sorotan hasil · *Filter TBM* (badan hukum, layanan literasi dasar, kegiatan rutin, jumlah buku, sumber dana, pengembangan kapasitas) · *Update Portofolio* (pilih TBM → nama & nomor anggota terisi otomatis → tulis kegiatan) · halaman riwayat portofolio per TBM |
 | **Manajemen User** | Superuser/Administrator menambah user, mengganti peran, reset password, menghapus user |
 | **Akun Saya** | Ganti password sendiri |
 
@@ -39,6 +40,7 @@ Keamanan ditegakkan di database (Row Level Security), bukan hanya di tampilan.
 2. Buka **SQL Editor** → jalankan isi file berikut **berurutan**:
    1. `supabase/01_schema.sql` – tabel, trigger, view, RLS
    2. `supabase/02_seed_wilayah.sql` – 38 provinsi & 515 kabupaten/kota
+   3. `supabase/03_portofolio.sql` – tabel portofolio TBM + fungsi pencarian & filter
 3. **Matikan pendaftaran publik:** *Authentication → Sign In / Providers → Email* → nonaktifkan
    **"Allow new users to sign up"** (biarkan provider Email tetap aktif). User hanya dibuat dari aplikasi.
 4. Catat dari *Project Settings → API*: **Project URL**, **anon/publishable key**, **service_role/secret key**.
@@ -88,6 +90,26 @@ Menu **Anggota TBM → Upload CSV**.
   "Sumatera Utara", "DI Yogyakarta" dll dikenali). TBM yang tidak cocok ditandai **"belum cocok"** — filter
   *Wilayah belum cocok* di daftar TBM untuk memperbaikinya, karena TBM tersebut belum terhitung di dashboard daerah.
 - **Unduh CSV** menghasilkan format yang sama, sehingga bisa diedit di Excel lalu di-upload kembali.
+
+---
+
+## Portofolio TBM
+
+- Satu TBM dapat memiliki banyak catatan portofolio (tanggal, judul opsional, isi paragraf). Catatan ikut terhapus bila data TBM dihapus.
+- **Pencarian**: setiap kata kunci harus ditemukan di salah satu dari: nama TBM / nomor anggota, lokasi (provinsi, kab/kota,
+  kecamatan, desa) atau isi portofolio. Hasil diurutkan dari yang paling relevan (cocok di nama > lokasi > portofolio).
+- **Filter** memakai kolom data TBM:
+
+| Filter | Kolom |
+|---|---|
+| Badan Hukum | `kelembagaan_bentuk` |
+| Layanan Literasi Dasar | `program_layanan_literasi_dasar` |
+| Kegiatan Rutin | `program_kegiatan_kerap` |
+| Jumlah Buku | `program_jml_buku` |
+| Sumber Dana | `program_sumber_dana` |
+| Pengembangan Kapasitas | `kap_minat_pengembangan` dan topik `kap_topik_*` |
+
+  Pilihan dropdown dibentuk otomatis dari isian data yang ada.
 
 ---
 

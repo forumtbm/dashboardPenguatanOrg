@@ -25,6 +25,9 @@ export default async function TbmEditPage({ params }: { params: Promise<{ id: st
     <div className="max-w-5xl space-y-5">
       <div>
         <h1 className="h1">{id === "baru" ? "Tambah Anggota TBM" : (initial.nama_tbm as string) || "Detail TBM"}</h1>
+        {id !== "baru" && (
+          <a href={`/portofolio/tbm/${id}`} className="text-sm text-emerald-700 hover:underline">Lihat portofolio TBM ini →</a>
+        )}
         {id !== "baru" &&
           (mapped ? (
             <p className="text-sm text-stone-500">Terpetakan ke wilayah: <b>{titleCase(mapped)}</b></p>
